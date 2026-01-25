@@ -19,6 +19,19 @@ CREATE TABLE emprestimos (
     data_emprestimo DATE NOT NULL,
     data_devolucao DATE,
     status TEXT NOT NULL CHECK (status IN ('ATIVO', 'DEVOLVIDO')),
+    
+    -- Relacionamento entre as entidades
     FOREIGN KEY (usuario_id) REFERENCES usuario(id),
     FOREIGN KEY (livro_id) REFERENCES livros(id)
+
 );
+
+    -- Índices para performance (criados para otimizar consultas com JOIN e filtros frequentes).
+    CREATE INDEX idx_emprestimos_usuario
+    ON emprestimos(usuario_id);
+
+    CREATE INDEX idx_emprestimos_livro
+    ON emprestimos(livro_id);
+
+    CREATE INDEX idx_emprestimos_status
+    ON emprestimos(status);
